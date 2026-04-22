@@ -21,15 +21,14 @@ import {
   Activity,
   Footprints,
   Dumbbell,
-  Bone,
-  ShieldPlus,
-  Bike,
-  Stethoscope,
+  Magnet,
   Clock,
   Facebook,
   Quote,
   ArrowRight,
   CheckCircle2,
+  Menu,
+  X,
 } from "lucide-react";
 import logo from "@/assets/logo.png";
 import clinic1 from "@/assets/clinic-1.jpg";
@@ -37,6 +36,13 @@ import clinic2 from "@/assets/clinic-2.jpg";
 import clinic3 from "@/assets/clinic-3.jpg";
 import clinicPilates from "@/assets/clinic-pilates.jpg";
 import team from "@/assets/team.jpg";
+import svcManual from "@/assets/svc-manual.jpg";
+import svcShockwave from "@/assets/svc-shockwave.jpg";
+import svcTecar from "@/assets/svc-tecar.jpg";
+import svcPilates from "@/assets/svc-pilates.jpg";
+import svcPedo from "@/assets/svc-pedo.jpg";
+import svcExercise from "@/assets/svc-exercise.jpg";
+import svcMagnetic from "@/assets/svc-magnetic.jpg";
 
 const PHONE = "2105137084";
 const PHONE_DISPLAY = "21 0513 7084";
@@ -54,6 +60,7 @@ const reasons = [
 
 type Service = {
   icon: typeof Hand;
+  image: string;
   title: string;
   desc: string;
   intro: string;
@@ -65,6 +72,7 @@ type Service = {
 const services: Service[] = [
   {
     icon: Hand,
+    image: svcManual,
     title: "Manual Therapy",
     desc: "Ειδικές τεχνικές χειρισμού για ταχύτατη ανακούφιση.",
     intro: "Εξειδικευμένες τεχνικές χειρισμού για την αντιμετώπιση μυοσκελετικών παθήσεων με άμεσα και διαρκή αποτελέσματα.",
@@ -82,6 +90,7 @@ const services: Service[] = [
   },
   {
     icon: Waves,
+    image: svcShockwave,
     title: "Κρουστικοί Υπέρηχοι",
     desc: "Shockwave θεραπεία για τενοντοπάθειες & χρόνιο πόνο.",
     intro: "Η θεραπεία Shockwave αποτελεί την πιο αποτελεσματική μέθοδο για την αντιμετώπιση χρόνιων τενοντοπαθειών.",
@@ -99,6 +108,7 @@ const services: Service[] = [
   },
   {
     icon: Zap,
+    image: svcTecar,
     title: "Θεραπείες TECAR",
     desc: "Διαθερμία υψηλής συχνότητας για βαθιά αποκατάσταση.",
     intro: "Καινοτομία στο χώρο της αποκατάστασης που βασίζεται στην εκπομπή ραδιοκυμάτων υψηλής συχνότητας.",
@@ -116,6 +126,7 @@ const services: Service[] = [
   },
   {
     icon: Activity,
+    image: svcPilates,
     title: "Clinical Pilates",
     desc: "Θεραπευτικό Pilates για ενδυνάμωση & σταθεροποίηση.",
     intro: "Εξειδικευμένη μορφή Pilates με κλινική προσέγγιση για αποκατάσταση και πρόληψη τραυματισμών.",
@@ -133,6 +144,7 @@ const services: Service[] = [
   },
   {
     icon: Footprints,
+    image: svcPedo,
     title: "Πελματογράφημα",
     desc: "Ανάλυση πέλματος και εξατομικευμένοι πάτοι.",
     intro: "Σύγχρονη ηλεκτρονική ανάλυση της κατανομής των πιέσεων του πέλματος για ορθοπεδικά πέλματα κατά παραγγελία.",
@@ -150,6 +162,7 @@ const services: Service[] = [
   },
   {
     icon: Dumbbell,
+    image: svcExercise,
     title: "Θεραπευτική Άσκηση",
     desc: "Προγράμματα ενδυνάμωσης και κινητοποίησης.",
     intro: "Επιστημονικά σχεδιασμένα προγράμματα άσκησης για αποκατάσταση, ενδυνάμωση και πρόληψη.",
@@ -166,72 +179,22 @@ const services: Service[] = [
     indications: ["Μετά από κατάγματα", "Μετεγχειρητικά", "Χρόνιοι πόνοι", "Νευρολογικές παθήσεις", "Ηλικιωμένοι"],
   },
   {
-    icon: Bone,
-    title: "Αυχενικό Σύνδρομο",
-    desc: "Ολοκληρωμένη αντιμετώπιση αυχεναλγίας & πονοκεφάλων.",
-    intro: "Εξειδικευμένη προσέγγιση για την αντιμετώπιση αυχεναλγίας, αυχενικού πονοκεφάλου και ζαλάδων αυχενικής αιτιολογίας.",
+    icon: Magnet,
+    image: svcMagnetic,
+    title: "Μαγνητικός Διεγέρτης",
+    desc: "Παλμικά μαγνητικά πεδία για βαθιά αναγέννηση ιστών.",
+    intro: "Σύγχρονη θεραπεία με παλμικά μαγνητικά πεδία υψηλής έντασης για επιτάχυνση της επούλωσης και ανακούφιση πόνου σε βάθος.",
     paragraphs: [
-      "Το αυχενικό σύνδρομο εκδηλώνεται με πόνο στον αυχένα, πονοκεφάλους, ζαλάδες, ίλιγγο, μούδιασμα στα χέρια ή πόνο στις ωμοπλάτες. Συνήθως οφείλεται σε κακή στάση, παρατεταμένη χρήση Η/Υ, στρες ή τραυματισμό.",
-      "Η αντιμετώπιση συνδυάζει manual therapy, TECAR, ασκήσεις σταθεροποίησης και εκπαίδευση στη σωστή στάση εργασίας για άμεση και μακροχρόνια ανακούφιση.",
+      "Ο μαγνητικός διεγέρτης (PEMF / Magnetic Field Therapy) εκπέμπει παλμικά μαγνητικά πεδία που διεισδύουν σε βάθος στους ιστούς, χωρίς θερμότητα και χωρίς πόνο. Διεγείρουν τη μικροκυκλοφορία, ενισχύουν τον κυτταρικό μεταβολισμό και επιταχύνουν τη φυσική διαδικασία επούλωσης.",
+      "Είναι ιδιαίτερα αποτελεσματικός σε περιπτώσεις καθυστερημένης πώρωσης κατάγματος, οστεοπόρωσης, χρόνιων αρθρίτιδων και νευραλγιών. Αποτελεί μια εντελώς ανώδυνη και μη επεμβατική θεραπεία.",
     ],
     benefits: [
-      "Άμεση ανακούφιση πόνου",
-      "Εξάλειψη πονοκεφάλων",
-      "Βελτίωση κινητικότητας αυχένα",
-      "Διόρθωση στάσης σώματος",
+      "Επιτάχυνση επούλωσης οστών & ιστών",
+      "Άμεση μείωση πόνου & φλεγμονής",
+      "Βελτίωση μικροκυκλοφορίας",
+      "Ανώδυνη & μη επεμβατική",
     ],
-    indications: ["Αυχεναλγία", "Πονοκέφαλοι τάσης", "Αυχενικός ίλιγγος", "Σύνδρομο θωρακικής εξόδου", "Δισκοπάθεια αυχενικής μοίρας"],
-  },
-  {
-    icon: ShieldPlus,
-    title: "Οσφυαλγία / Μέση",
-    desc: "Θεραπεία οσφυαλγίας, δισκοπάθειας και ισχιαλγίας.",
-    intro: "Ολοκληρωμένα πρωτόκολλα για τον πόνο στη μέση — από την οξεία οσφυαλγία έως τη χρόνια δισκοπάθεια.",
-    paragraphs: [
-      "Η οσφυαλγία είναι ο πιο συχνός μυοσκελετικός πόνος και επηρεάζει 8 στους 10 ανθρώπους κάποια στιγμή στη ζωή τους. Μπορεί να οφείλεται σε δισκοκήλη, δισκοπάθεια, σπονδυλολίσθηση, μυϊκό σπασμό ή κακή στάση.",
-      "Συνδυάζουμε manual therapy, TECAR, κρουστικούς υπερήχους και θεραπευτική άσκηση για άμεση ανακούφιση και μακροχρόνια αποκατάσταση χωρίς υποτροπές.",
-    ],
-    benefits: [
-      "Άμεση μείωση πόνου",
-      "Αποσυμπίεση μεσοσπονδύλιων δίσκων",
-      "Ενδυνάμωση κορμού",
-      "Πρόληψη υποτροπών",
-    ],
-    indications: ["Οξεία & χρόνια οσφυαλγία", "Δισκοκήλη", "Ισχιαλγία", "Σπονδυλολίσθηση", "Στένωση σπονδυλικού σωλήνα"],
-  },
-  {
-    icon: Bike,
-    title: "Αθλητικοί Τραυματισμοί",
-    desc: "Επιστροφή στην αθλητική δράση με ασφάλεια.",
-    intro: "Εξειδικευμένα πρωτόκολλα αποκατάστασης για ερασιτέχνες και επαγγελματίες αθλητές.",
-    paragraphs: [
-      "Οι αθλητικοί τραυματισμοί απαιτούν εξειδικευμένη γνώση και ταχύτατη παρέμβαση. Στόχος μας είναι η ασφαλής και γρήγορη επιστροφή του αθλητή στην αγωνιστική δράση χωρίς κίνδυνο επανατραυματισμού.",
-      "Συνδυάζουμε σύγχρονες τεχνολογίες (TECAR, Shockwave) με manual therapy και εξειδικευμένα προγράμματα επιστροφής στον αθλητισμό (return-to-sport protocols).",
-    ],
-    benefits: [
-      "Ταχύτατη επιστροφή στην αθλητική δράση",
-      "Πρόληψη επανατραυματισμού",
-      "Βελτίωση αθλητικής απόδοσης",
-      "Εξατομικευμένη αξιολόγηση",
-    ],
-    indications: ["Θλάσεις μυών", "Διαστρέμματα", "Ρήξεις συνδέσμων / μηνίσκων", "Τενοντοπάθειες", "Κακώσεις από υπέρχρηση"],
-  },
-  {
-    icon: Stethoscope,
-    title: "Μετεγχειρητική Αποκατάσταση",
-    desc: "Εξειδικευμένα προγράμματα μετά από επεμβάσεις.",
-    intro: "Εξατομικευμένα προγράμματα αποκατάστασης μετά από ορθοπεδικές επεμβάσεις, σε στενή συνεργασία με τον χειρουργό.",
-    paragraphs: [
-      "Η μετεγχειρητική φυσικοθεραπεία είναι καθοριστική για το τελικό αποτέλεσμα κάθε επέμβασης. Ένα σωστά σχεδιασμένο πρόγραμμα διασφαλίζει την πλήρη αποκατάσταση της λειτουργικότητας.",
-      "Ακολουθούμε διεθνώς αναγνωρισμένα πρωτόκολλα προσαρμοσμένα στο είδος της επέμβασης, τα οποία περιλαμβάνουν διαχείριση πόνου & οιδήματος, σταδιακή κινητοποίηση και προοδευτική ενδυνάμωση.",
-    ],
-    benefits: [
-      "Πλήρης ανάκτηση λειτουργικότητας",
-      "Πρόληψη επιπλοκών",
-      "Μείωση χρόνου αποθεραπείας",
-      "Συνεργασία με τον χειρουργό σας",
-    ],
-    indications: ["Αρθροπλαστική γόνατος / ισχίου", "Ανακατασκευή πρόσθιου χιαστού", "Επεμβάσεις ώμου (rotator cuff)", "Επεμβάσεις σπονδυλικής στήλης", "Μετά από κατάγματα"],
+    indications: ["Καθυστερημένη πώρωση κατάγματος", "Οστεοπόρωση", "Αρθρίτιδες & οστεοαρθρίτιδα", "Νευραλγίες", "Χρόνιοι μυοσκελετικοί πόνοι"],
   },
 ];
 
@@ -253,6 +216,15 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   const [activeService, setActiveService] = useState<Service | null>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const navLinks = [
+    { href: "#why", label: "Γιατί Εμάς" },
+    { href: "#services", label: "Υπηρεσίες" },
+    { href: "#about", label: "Σχετικά" },
+    { href: "#reviews", label: "Κριτικές" },
+    { href: "#contact", label: "Επικοινωνία" },
+  ];
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -270,43 +242,73 @@ export default function App() {
       </div>
 
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-xl">
-        <div className="container mx-auto flex h-20 items-center justify-between px-6">
+      <header className="sticky top-0 z-50 border-b border-border/60 bg-background/90 backdrop-blur-xl">
+        <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
           <a href="#top" className="flex items-center gap-3">
-            <img src={logo} alt="Physiomerimna" className="h-11 w-auto" />
-            <div className="hidden flex-col leading-none sm:flex">
-              <span className="font-serif-display text-2xl font-semibold tracking-tight text-primary">Physiomerimna</span>
-              <span className="mt-1 text-[10px] uppercase tracking-luxury text-muted-foreground">Φυσικοθεραπεία · Σεπόλια</span>
+            <img src={logo} alt="Physiomerimna" className="h-10 w-auto md:h-11" />
+            <div className="flex flex-col leading-none">
+              <span className="font-serif-display text-xl font-semibold tracking-tight text-primary md:text-2xl">Physiomerimna</span>
+              <span className="mt-1 hidden text-[10px] uppercase tracking-luxury text-muted-foreground sm:block">Φυσικοθεραπεία · Σεπόλια</span>
             </div>
           </a>
           <nav className="hidden items-center gap-9 text-[13px] font-medium text-muted-foreground lg:flex">
-            <a href="#why" className="transition-colors hover:text-primary">Γιατί Εμάς</a>
-            <a href="#services" className="transition-colors hover:text-primary">Υπηρεσίες</a>
-            <a href="#about" className="transition-colors hover:text-primary">Σχετικά</a>
-            <a href="#reviews" className="transition-colors hover:text-primary">Κριτικές</a>
-            <a href="#contact" className="transition-colors hover:text-primary">Επικοινωνία</a>
+            {navLinks.map((l) => (
+              <a key={l.href} href={l.href} className="transition-colors hover:text-primary">{l.label}</a>
+            ))}
           </nav>
-          <Button asChild size="sm" className="h-10 rounded-none border border-primary bg-primary px-5 text-[12px] uppercase tracking-[0.2em] text-primary-foreground hover:bg-ink">
-            <a href={`tel:+30${PHONE}`}>
-              <Phone className="mr-2 h-4 w-4" />Ραντεβού
+          <div className="flex items-center gap-2">
+            <Button asChild size="sm" className="hidden h-10 rounded-none border border-primary bg-primary px-5 text-[12px] uppercase tracking-[0.2em] text-primary-foreground hover:bg-ink sm:inline-flex">
+              <a href={`tel:+30${PHONE}`}>
+                <Phone className="mr-2 h-4 w-4" />Ραντεβού
+              </a>
+            </Button>
+            <a
+              href={`tel:+30${PHONE}`}
+              aria-label="Κάλεσε"
+              className="flex h-10 w-10 items-center justify-center border border-primary bg-primary text-primary-foreground sm:hidden"
+            >
+              <Phone className="h-4 w-4" />
             </a>
-          </Button>
+            <button
+              type="button"
+              onClick={() => setMobileOpen((v) => !v)}
+              aria-label="Μενού"
+              className="flex h-10 w-10 items-center justify-center border border-border text-primary lg:hidden"
+            >
+              {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
         </div>
+        {mobileOpen && (
+          <nav className="border-t border-border bg-background lg:hidden">
+            <div className="container mx-auto flex flex-col px-4 py-2">
+              {navLinks.map((l) => (
+                <a
+                  key={l.href}
+                  href={l.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="border-b border-border/60 py-3 text-sm font-medium text-primary last:border-0"
+                >
+                  {l.label}
+                </a>
+              ))}
+            </div>
+          </nav>
+        )}
       </header>
 
       {/* Hero */}
       <section id="top" className="relative overflow-hidden bg-hero-gradient">
-        <div
-          className="absolute inset-0 opacity-25"
-          style={{
-            backgroundImage: `url(${clinic1})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            mixBlendMode: "luminosity",
-          }}
+        <img
+          src={clinic1}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full object-cover opacity-50"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-ink/85 via-ink/55 to-transparent" />
-        <div className="absolute -right-40 top-20 h-96 w-96 animate-float rounded-full bg-gold/10 blur-3xl" />
+        <div className="absolute inset-0 bg-gradient-to-r from-ink/90 via-ink/70 to-ink/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent" />
+        <div className="absolute -right-40 top-20 h-96 w-96 animate-float rounded-full bg-gold/15 blur-3xl" />
+        <div className="absolute -left-40 bottom-0 h-80 w-80 rounded-full bg-gold/5 blur-3xl" />
 
         <div className="container relative mx-auto grid min-h-[88vh] items-center px-6 py-24 md:py-32">
           <div className="max-w-3xl text-white">
@@ -351,7 +353,7 @@ export default function App() {
 
             <div className="mt-20 grid max-w-2xl grid-cols-3 gap-8 border-t border-white/10 pt-8">
               <div>
-                <div className="font-serif-display text-3xl font-medium text-gold md:text-4xl">10+</div>
+                <div className="font-serif-display text-3xl font-medium text-gold md:text-4xl">25+</div>
                 <div className="mt-1 text-[10px] uppercase tracking-luxury text-white/50">Χρόνια Εμπειρίας</div>
               </div>
               <div>
@@ -359,7 +361,7 @@ export default function App() {
                 <div className="mt-1 text-[10px] uppercase tracking-luxury text-white/50">Google Rating</div>
               </div>
               <div>
-                <div className="font-serif-display text-3xl font-medium text-gold md:text-4xl">10+</div>
+                <div className="font-serif-display text-3xl font-medium text-gold md:text-4xl">6+</div>
                 <div className="mt-1 text-[10px] uppercase tracking-luxury text-white/50">Υπηρεσίες</div>
               </div>
             </div>
@@ -403,23 +405,36 @@ export default function App() {
               Σύγχρονες μέθοδοι και εξειδικευμένα πρωτόκολλα για κάθε ανάγκη.
             </p>
           </div>
-          <div className="grid gap-px bg-border md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+          <div className="grid gap-px bg-border sm:grid-cols-2 lg:grid-cols-3">
             {services.map((service, index) => (
               <button
                 key={index}
                 type="button"
                 onClick={() => setActiveService(service)}
-                className="group relative overflow-hidden bg-background p-8 text-left transition-all duration-500 hover:bg-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                className="group relative flex flex-col overflow-hidden bg-background text-left transition-all duration-500 hover:bg-card focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
               >
-                <service.icon className="mb-6 h-8 w-8 text-gold transition-all duration-500 group-hover:scale-110" strokeWidth={1.25} />
-                <h3 className="mb-3 font-serif-display text-xl font-medium leading-tight text-primary transition-colors group-hover:text-white">
-                  {service.title}
-                </h3>
-                <p className="text-sm leading-relaxed text-muted-foreground transition-colors group-hover:text-white/70">
-                  {service.desc}
-                </p>
-                <div className="mt-6 flex items-center text-[11px] uppercase tracking-[0.2em] text-gold opacity-70 transition-opacity duration-500 group-hover:opacity-100">
-                  Περισσότερα <ArrowRight className="ml-2 h-3 w-3" />
+                <div className="relative aspect-[16/10] w-full overflow-hidden bg-muted">
+                  <img
+                    src={service.image}
+                    alt={service.title}
+                    loading="lazy"
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink/40 via-transparent to-transparent" />
+                  <div className="absolute left-4 top-4 flex h-10 w-10 items-center justify-center border border-white/40 bg-white/10 backdrop-blur-md">
+                    <service.icon className="h-5 w-5 text-white" strokeWidth={1.5} />
+                  </div>
+                </div>
+                <div className="flex flex-1 flex-col p-7">
+                  <h3 className="mb-3 font-serif-display text-2xl font-medium leading-tight text-primary">
+                    {service.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-muted-foreground">
+                    {service.desc}
+                  </p>
+                  <div className="mt-6 flex items-center text-[11px] uppercase tracking-[0.2em] text-gold transition-all duration-500 group-hover:translate-x-1">
+                    Περισσότερα <ArrowRight className="ml-2 h-3 w-3" />
+                  </div>
                 </div>
               </button>
             ))}
@@ -541,16 +556,14 @@ export default function App() {
               </p>
               <div className="grid grid-cols-3 gap-6 border-t border-border pt-8">
                 <div>
-                  <div className="font-serif-display text-4xl font-medium text-primary">10<span className="text-gold">+</span></div>
-                  <div className="mt-2 text-[10px] uppercase tracking-luxury text-muted-foreground">Χρόνια Εμπειρίας</div>
+                  <div className="font-serif-display text-4xl font-medium text-primary">25<span className="text-gold">+</span></div>
                 </div>
                 <div>
                   <div className="font-serif-display text-4xl font-medium text-primary">4.8<span className="text-gold">★</span></div>
                   <div className="mt-2 text-[10px] uppercase tracking-luxury text-muted-foreground">Google Rating</div>
                 </div>
                 <div>
-                  <div className="font-serif-display text-4xl font-medium text-primary">10<span className="text-gold">+</span></div>
-                  <div className="mt-2 text-[10px] uppercase tracking-luxury text-muted-foreground">Υπηρεσίες</div>
+                  <div className="font-serif-display text-4xl font-medium text-primary">6<span className="text-gold">+</span></div>
                 </div>
               </div>
             </div>
