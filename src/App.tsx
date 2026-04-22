@@ -680,6 +680,83 @@ export default function App() {
           </div>
         </div>
       </footer>
+
+      {/* Service detail dialog */}
+      <Dialog open={!!activeService} onOpenChange={(open) => !open && setActiveService(null)}>
+        <DialogContent className="max-h-[90vh] max-w-3xl overflow-y-auto rounded-none border-border bg-background p-0">
+          {activeService && (
+            <>
+              <div className="relative bg-hero-gradient px-8 py-12 text-white md:px-12 md:py-14">
+                <div className="absolute inset-0 opacity-20" style={{ backgroundImage: `url(${clinic2})`, backgroundSize: "cover", backgroundPosition: "center", mixBlendMode: "luminosity" }} />
+                <div className="relative">
+                  <div className="mb-6 inline-flex h-14 w-14 items-center justify-center border border-gold/50 bg-white/5 backdrop-blur-sm">
+                    <activeService.icon className="h-7 w-7 text-gold" strokeWidth={1.25} />
+                  </div>
+                  <DialogHeader className="space-y-3 text-left">
+                    <div className="text-[11px] uppercase tracking-luxury text-gold">Υπηρεσία</div>
+                    <DialogTitle className="font-serif-display text-3xl font-medium leading-tight text-white md:text-4xl">
+                      {activeService.title}
+                    </DialogTitle>
+                    <p className="max-w-xl text-sm leading-relaxed text-white/75 md:text-base">
+                      {activeService.intro}
+                    </p>
+                  </DialogHeader>
+                </div>
+              </div>
+
+              <div className="space-y-10 px-8 py-10 md:px-12 md:py-12">
+                <div className="space-y-5">
+                  {activeService.paragraphs.map((p, i) => (
+                    <p key={i} className="text-base leading-relaxed text-foreground/85">{p}</p>
+                  ))}
+                </div>
+
+                <div className="grid gap-10 border-t border-border pt-10 md:grid-cols-2">
+                  <div>
+                    <h4 className="mb-5 inline-flex items-center gap-3 text-[11px] font-medium uppercase tracking-luxury text-gold">
+                      <span className="h-px w-6 bg-gold" />Οφέλη
+                    </h4>
+                    <ul className="space-y-3">
+                      {activeService.benefits.map((b, i) => (
+                        <li key={i} className="flex items-start gap-3 text-sm leading-relaxed text-foreground/85">
+                          <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-gold" strokeWidth={1.5} />
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="mb-5 inline-flex items-center gap-3 text-[11px] font-medium uppercase tracking-luxury text-gold">
+                      <span className="h-px w-6 bg-gold" />Ενδείξεις
+                    </h4>
+                    <ul className="space-y-3">
+                      {activeService.indications.map((b, i) => (
+                        <li key={i} className="flex items-start gap-3 text-sm leading-relaxed text-foreground/85">
+                          <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-gold" />
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-3 border-t border-border pt-8 sm:flex-row">
+                  <Button asChild className="h-12 flex-1 rounded-none bg-primary text-[12px] uppercase tracking-[0.25em] text-primary-foreground hover:bg-ink">
+                    <a href={`tel:+30${PHONE}`}>
+                      <Phone className="mr-2 h-4 w-4" />Κλείστε Ραντεβού
+                    </a>
+                  </Button>
+                  <Button asChild variant="outline" className="h-12 flex-1 rounded-none border-primary text-[12px] uppercase tracking-[0.25em] text-primary hover:bg-primary hover:text-white">
+                    <a href={MAPS} target="_blank" rel="noopener">
+                      <MapPin className="mr-2 h-4 w-4" />Επισκεφθείτε μας
+                    </a>
+                  </Button>
+                </div>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
