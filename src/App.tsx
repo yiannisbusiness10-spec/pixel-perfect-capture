@@ -405,23 +405,36 @@ export default function App() {
               Σύγχρονες μέθοδοι και εξειδικευμένα πρωτόκολλα για κάθε ανάγκη.
             </p>
           </div>
-          <div className="grid gap-px bg-border md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+          <div className="grid gap-px bg-border sm:grid-cols-2 lg:grid-cols-3">
             {services.map((service, index) => (
               <button
                 key={index}
                 type="button"
                 onClick={() => setActiveService(service)}
-                className="group relative overflow-hidden bg-background p-8 text-left transition-all duration-500 hover:bg-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                className="group relative flex flex-col overflow-hidden bg-background text-left transition-all duration-500 hover:bg-card focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
               >
-                <service.icon className="mb-6 h-8 w-8 text-gold transition-all duration-500 group-hover:scale-110" strokeWidth={1.25} />
-                <h3 className="mb-3 font-serif-display text-xl font-medium leading-tight text-primary transition-colors group-hover:text-white">
-                  {service.title}
-                </h3>
-                <p className="text-sm leading-relaxed text-muted-foreground transition-colors group-hover:text-white/70">
-                  {service.desc}
-                </p>
-                <div className="mt-6 flex items-center text-[11px] uppercase tracking-[0.2em] text-gold opacity-70 transition-opacity duration-500 group-hover:opacity-100">
-                  Περισσότερα <ArrowRight className="ml-2 h-3 w-3" />
+                <div className="relative aspect-[16/10] w-full overflow-hidden bg-muted">
+                  <img
+                    src={service.image}
+                    alt={service.title}
+                    loading="lazy"
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink/40 via-transparent to-transparent" />
+                  <div className="absolute left-4 top-4 flex h-10 w-10 items-center justify-center border border-white/40 bg-white/10 backdrop-blur-md">
+                    <service.icon className="h-5 w-5 text-white" strokeWidth={1.5} />
+                  </div>
+                </div>
+                <div className="flex flex-1 flex-col p-7">
+                  <h3 className="mb-3 font-serif-display text-2xl font-medium leading-tight text-primary">
+                    {service.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-muted-foreground">
+                    {service.desc}
+                  </p>
+                  <div className="mt-6 flex items-center text-[11px] uppercase tracking-[0.2em] text-gold transition-all duration-500 group-hover:translate-x-1">
+                    Περισσότερα <ArrowRight className="ml-2 h-3 w-3" />
+                  </div>
                 </div>
               </button>
             ))}
