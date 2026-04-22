@@ -15,7 +15,7 @@ import clinic3 from "@/assets/clinic-3.jpg";
 import clinicPilates from "@/assets/clinic-pilates.jpg";
 import team from "@/assets/team.jpg";
 import svcManual from "@/assets/deep-tissue-massage-manual-therapy.jpg";
-import svcShockwave from "@/assets/svc-shockwave.jpg";
+import svcShockwave from "@/assets/shockwave.png";
 import svcTecar from "@/assets/svc-tecar.jpg";
 import svcPilates from "@/assets/svc-pilates.jpg";
 import svcPedo from "@/assets/svc-pedo.jpg";
