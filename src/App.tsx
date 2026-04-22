@@ -7,36 +7,14 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  Phone,
-  MapPin,
-  Star,
-  Award,
-  Sparkles,
-  HeartPulse,
-  Trophy,
-  Hand,
-  Waves,
-  Zap,
-  Activity,
-  Footprints,
-  Dumbbell,
-  Magnet,
-  Clock,
-  Facebook,
-  Quote,
-  ArrowRight,
-  CheckCircle2,
-  Menu,
-  X,
-} from "lucide-react";
+import { Phone, MapPin, Star, Award, Sparkles, HeartPulse, Trophy, Hand, Waves, Zap, Activity, Footprints, Dumbbell, Magnet, Clock, Facebook, Quote, ArrowRight, CircleCheck as CheckCircle2, Menu, X } from "lucide-react";
 import logo from "@/assets/logo.png";
 import clinic1 from "@/assets/clinic-1.jpg";
 import clinic2 from "@/assets/clinic-2.jpg";
 import clinic3 from "@/assets/clinic-3.jpg";
 import clinicPilates from "@/assets/clinic-pilates.jpg";
 import team from "@/assets/team.jpg";
-import svcManual from "@/assets/svc-manual.jpg";
+import svcManual from "@/assets/deep-tissue-massage-manual-therapy.jpg";
 import svcShockwave from "@/assets/svc-shockwave.jpg";
 import svcTecar from "@/assets/svc-tecar.jpg";
 import svcPilates from "@/assets/svc-pilates.jpg";
