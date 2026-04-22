@@ -60,6 +60,7 @@ const reasons = [
 
 type Service = {
   icon: typeof Hand;
+  image: string;
   title: string;
   desc: string;
   intro: string;
@@ -71,6 +72,7 @@ type Service = {
 const services: Service[] = [
   {
     icon: Hand,
+    image: svcManual,
     title: "Manual Therapy",
     desc: "Ειδικές τεχνικές χειρισμού για ταχύτατη ανακούφιση.",
     intro: "Εξειδικευμένες τεχνικές χειρισμού για την αντιμετώπιση μυοσκελετικών παθήσεων με άμεσα και διαρκή αποτελέσματα.",
