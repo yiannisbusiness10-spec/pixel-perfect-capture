@@ -1,5 +1,12 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   Phone,
   MapPin,
@@ -22,6 +29,7 @@ import {
   Facebook,
   Quote,
   ArrowRight,
+  CheckCircle2,
 } from "lucide-react";
 import logo from "@/assets/logo.png";
 import clinic1 from "@/assets/clinic-1.jpg";
