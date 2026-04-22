@@ -21,15 +21,14 @@ import {
   Activity,
   Footprints,
   Dumbbell,
-  Bone,
-  ShieldPlus,
-  Bike,
-  Stethoscope,
+  Magnet,
   Clock,
   Facebook,
   Quote,
   ArrowRight,
   CheckCircle2,
+  Menu,
+  X,
 } from "lucide-react";
 import logo from "@/assets/logo.png";
 import clinic1 from "@/assets/clinic-1.jpg";
@@ -37,6 +36,13 @@ import clinic2 from "@/assets/clinic-2.jpg";
 import clinic3 from "@/assets/clinic-3.jpg";
 import clinicPilates from "@/assets/clinic-pilates.jpg";
 import team from "@/assets/team.jpg";
+import svcManual from "@/assets/svc-manual.jpg";
+import svcShockwave from "@/assets/svc-shockwave.jpg";
+import svcTecar from "@/assets/svc-tecar.jpg";
+import svcPilates from "@/assets/svc-pilates.jpg";
+import svcPedo from "@/assets/svc-pedo.jpg";
+import svcExercise from "@/assets/svc-exercise.jpg";
+import svcMagnetic from "@/assets/svc-magnetic.jpg";
 
 const PHONE = "2105137084";
 const PHONE_DISPLAY = "21 0513 7084";
