@@ -556,16 +556,14 @@ export default function App() {
               </p>
               <div className="grid grid-cols-3 gap-6 border-t border-border pt-8">
                 <div>
-                  <div className="font-serif-display text-4xl font-medium text-primary">10<span className="text-gold">+</span></div>
-                  <div className="mt-2 text-[10px] uppercase tracking-luxury text-muted-foreground">Χρόνια Εμπειρίας</div>
+                  <div className="font-serif-display text-4xl font-medium text-primary">25<span className="text-gold">+</span></div>
                 </div>
                 <div>
                   <div className="font-serif-display text-4xl font-medium text-primary">4.8<span className="text-gold">★</span></div>
                   <div className="mt-2 text-[10px] uppercase tracking-luxury text-muted-foreground">Google Rating</div>
                 </div>
                 <div>
-                  <div className="font-serif-display text-4xl font-medium text-primary">10<span className="text-gold">+</span></div>
-                  <div className="mt-2 text-[10px] uppercase tracking-luxury text-muted-foreground">Υπηρεσίες</div>
+                  <div className="font-serif-display text-4xl font-medium text-primary">6<span className="text-gold">+</span></div>
                 </div>
               </div>
             </div>
