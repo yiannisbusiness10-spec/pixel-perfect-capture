@@ -1,5 +1,12 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   Phone,
   MapPin,
@@ -22,6 +29,7 @@ import {
   Facebook,
   Quote,
   ArrowRight,
+  CheckCircle2,
 } from "lucide-react";
 import logo from "@/assets/logo.png";
 import clinic1 from "@/assets/clinic-1.jpg";
@@ -44,17 +52,187 @@ const reasons = [
   { icon: Trophy, title: "Εξαιρετικές Κριτικές", desc: "Εκατοντάδες ικανοποιημένοι ασθενείς μας εμπιστεύονται." },
 ];
 
-const services = [
-  { icon: Hand, title: "Manual Therapy", desc: "Ειδικές τεχνικές χειρισμού για ταχύτατη ανακούφιση." },
-  { icon: Waves, title: "Κρουστικοί Υπέρηχοι", desc: "Shockwave θεραπεία για τενοντοπάθειες & χρόνιο πόνο." },
-  { icon: Zap, title: "Θεραπείες TECAR", desc: "Διαθερμία υψηλής συχνότητας για βαθιά αποκατάσταση." },
-  { icon: Activity, title: "Clinical Pilates", desc: "Θεραπευτικό Pilates για ενδυνάμωση & σταθεροποίηση." },
-  { icon: Footprints, title: "Πελματογράφημα", desc: "Ανάλυση πέλματος και εξατομικευμένοι πάτοι." },
-  { icon: Dumbbell, title: "Θεραπευτική Άσκηση", desc: "Προγράμματα ενδυνάμωσης και κινητοποίησης." },
-  { icon: Bone, title: "Αυχενικό Σύνδρομο", desc: "Ολοκληρωμένη αντιμετώπιση αυχεναλγίας & πονοκεφάλων." },
-  { icon: ShieldPlus, title: "Οσφυαλγία / Μέση", desc: "Θεραπεία οσφυαλγίας, δισκοπάθειας και ισχιαλγίας." },
-  { icon: Bike, title: "Αθλητικοί Τραυματισμοί", desc: "Επιστροφή στην αθλητική δράση με ασφάλεια." },
-  { icon: Stethoscope, title: "Μετεγχειρητική Αποκατάσταση", desc: "Εξειδικευμένα προγράμματα μετά από επεμβάσεις." },
+type Service = {
+  icon: typeof Hand;
+  title: string;
+  desc: string;
+  intro: string;
+  paragraphs: string[];
+  benefits: string[];
+  indications: string[];
+};
+
+const services: Service[] = [
+  {
+    icon: Hand,
+    title: "Manual Therapy",
+    desc: "Ειδικές τεχνικές χειρισμού για ταχύτατη ανακούφιση.",
+    intro: "Εξειδικευμένες τεχνικές χειρισμού για την αντιμετώπιση μυοσκελετικών παθήσεων με άμεσα και διαρκή αποτελέσματα.",
+    paragraphs: [
+      "Το Manual Therapy αποτελεί έναν σύγχρονο τρόπο αντιμετώπισης μυοσκελετικών παθήσεων που εφαρμόζεται διεθνώς εδώ και δεκαετίες. Με τον όρο εννοούμε τις εξειδικευμένες τεχνικές και χειρισμούς αποκατάστασης που εκτελούνται αποκλειστικά με τα χέρια του φυσικοθεραπευτή.",
+      "Στόχος είναι η αποκατάσταση της φυσιολογικής κίνησης των αρθρώσεων, η μείωση του πόνου, η χαλάρωση των μυϊκών σπασμών και η βελτίωση της λειτουργικότητας. Κάθε συνεδρία είναι εξατομικευμένη και προσαρμοσμένη στις ανάγκες του ασθενή.",
+    ],
+    benefits: [
+      "Άμεση μείωση του πόνου",
+      "Βελτίωση κινητικότητας αρθρώσεων",
+      "Χαλάρωση μυϊκών σπασμών",
+      "Επανέκταση μυϊκών ινών",
+    ],
+    indications: ["Αυχεναλγία", "Οσφυαλγία", "Πονοκέφαλοι τάσης", "Παθήσεις ώμου", "Δυσλειτουργίες αρθρώσεων"],
+  },
+  {
+    icon: Waves,
+    title: "Κρουστικοί Υπέρηχοι",
+    desc: "Shockwave θεραπεία για τενοντοπάθειες & χρόνιο πόνο.",
+    intro: "Η θεραπεία Shockwave αποτελεί την πιο αποτελεσματική μέθοδο για την αντιμετώπιση χρόνιων τενοντοπαθειών.",
+    paragraphs: [
+      "Οι κρουστικοί υπέρηχοι (Shockwave Therapy) είναι ηχητικά κύματα υψηλής ενέργειας που εφαρμόζονται στην πάσχουσα περιοχή. Διεγείρουν τη μικροκυκλοφορία, ενεργοποιούν τους μηχανισμούς αυτοεπούλωσης και διασπούν επασβεστώσεις.",
+      "Είναι ιδανικοί για χρόνιες παθήσεις που δεν ανταποκρίνονται σε συμβατικές θεραπείες. Συνήθως απαιτούνται 3 έως 6 συνεδρίες με μεσοδιαστήματα μίας εβδομάδας.",
+    ],
+    benefits: [
+      "Άμεση δράση σε χρόνιες τενοντοπάθειες",
+      "Διάσπαση επασβεστώσεων",
+      "Διέγερση κυτταρικής αναγέννησης",
+      "Μη επεμβατική μέθοδος",
+    ],
+    indications: ["Πελματιαία απονευρωσίτιδα", "Επικονδυλίτιδα (tennis elbow)", "Τενοντίτιδα Αχιλλείου", "Σύνδρομο υπακρωμιακής προστριβής", "Επασβεστώσεις"],
+  },
+  {
+    icon: Zap,
+    title: "Θεραπείες TECAR",
+    desc: "Διαθερμία υψηλής συχνότητας για βαθιά αποκατάσταση.",
+    intro: "Καινοτομία στο χώρο της αποκατάστασης που βασίζεται στην εκπομπή ραδιοκυμάτων υψηλής συχνότητας.",
+    paragraphs: [
+      "Η θεραπεία TECAR είναι μία από τις πιο σύγχρονες τεχνολογίες στην αποκατάσταση. Παράγει ενδογενώς θερμότητα μέσω ραδιοκυμάτων, ενεργοποιώντας τους φυσικούς μηχανισμούς αυτοίασης του οργανισμού σε βάθος.",
+      "Επιταχύνει σημαντικά τους χρόνους αποκατάστασης τόσο σε οξείες όσο και σε χρόνιες παθήσεις, μειώνει το οίδημα, ανακουφίζει από τον πόνο και επιταχύνει την ιστική αναγέννηση.",
+    ],
+    benefits: [
+      "Επιτάχυνση χρόνου αποκατάστασης",
+      "Άμεση ανακούφιση πόνου",
+      "Μείωση οιδήματος και φλεγμονής",
+      "Βαθιά ιστική θέρμανση",
+    ],
+    indications: ["Αθλητικοί τραυματισμοί", "Θλάσεις & διαστρέμματα", "Χρόνιες τενοντοπάθειες", "Μετεγχειρητική αποκατάσταση", "Αρθρίτιδες"],
+  },
+  {
+    icon: Activity,
+    title: "Clinical Pilates",
+    desc: "Θεραπευτικό Pilates για ενδυνάμωση & σταθεροποίηση.",
+    intro: "Εξειδικευμένη μορφή Pilates με κλινική προσέγγιση για αποκατάσταση και πρόληψη τραυματισμών.",
+    paragraphs: [
+      "Το Clinical Pilates συνδυάζει τις αρχές του παραδοσιακού Pilates με τη γνώση της φυσικοθεραπείας. Επικεντρώνεται στην ενεργοποίηση των εν τω βάθει σταθεροποιητικών μυών, στη βελτίωση της στάσης και στη σωστή νευρομυϊκή λειτουργία.",
+      "Τα προγράμματα είναι πλήρως εξατομικευμένα και πραγματοποιούνται είτε σε ατομικές είτε σε ολιγομελείς συνεδρίες υπό την επίβλεψη πιστοποιημένου φυσικοθεραπευτή.",
+    ],
+    benefits: [
+      "Ενίσχυση κορμού (core stability)",
+      "Βελτίωση στάσης σώματος",
+      "Πρόληψη τραυματισμών",
+      "Αύξηση ευλυγισίας και ελέγχου",
+    ],
+    indications: ["Χρόνια οσφυαλγία", "Σκολίωση & δυσμορφίες σπονδυλικής στήλης", "Μετεγχειρητική αποκατάσταση", "Προετοιμασία εγκυμοσύνης", "Αθλητική απόδοση"],
+  },
+  {
+    icon: Footprints,
+    title: "Πελματογράφημα",
+    desc: "Ανάλυση πέλματος και εξατομικευμένοι πάτοι.",
+    intro: "Σύγχρονη ηλεκτρονική ανάλυση της κατανομής των πιέσεων του πέλματος για ορθοπεδικά πέλματα κατά παραγγελία.",
+    paragraphs: [
+      "Το πελματογράφημα είναι μια μη επεμβατική εξέταση που καταγράφει με ακρίβεια τις πιέσεις του πέλματος, τόσο σε στατική όσο και σε δυναμική θέση (κατά τη βάδιση).",
+      "Με βάση τα αποτελέσματα κατασκευάζονται εξατομικευμένα ορθοπεδικά πέλματα που διορθώνουν την κατανομή του βάρους, ανακουφίζουν τον πόνο και προλαμβάνουν τραυματισμούς σε γόνατα, ισχία και σπονδυλική στήλη.",
+    ],
+    benefits: [
+      "Ακριβής διάγνωση εμβιομηχανικών προβλημάτων",
+      "Εξατομικευμένα ορθοπεδικά πέλματα",
+      "Πρόληψη τραυματισμών",
+      "Ανακούφιση από πόνους ποδιών, γονάτων, μέσης",
+    ],
+    indications: ["Πλατυποδία", "Κοιλοποδία", "Πελματιαία απονευρωσίτιδα", "Πόνοι γονάτων από βάδιση", "Διαφορά μήκους κάτω άκρων"],
+  },
+  {
+    icon: Dumbbell,
+    title: "Θεραπευτική Άσκηση",
+    desc: "Προγράμματα ενδυνάμωσης και κινητοποίησης.",
+    intro: "Επιστημονικά σχεδιασμένα προγράμματα άσκησης για αποκατάσταση, ενδυνάμωση και πρόληψη.",
+    paragraphs: [
+      "Η θεραπευτική άσκηση αποτελεί τον ακρογωνιαίο λίθο κάθε ολοκληρωμένου προγράμματος αποκατάστασης. Στοχεύει στην αποκατάσταση της δύναμης, της ευλυγισίας, της ισορροπίας και της λειτουργικότητας.",
+      "Κάθε πρόγραμμα σχεδιάζεται εξατομικευμένα από τον φυσικοθεραπευτή με βάση τη διάγνωση, την ηλικία, το επίπεδο φυσικής κατάστασης και τους προσωπικούς στόχους του ασθενή.",
+    ],
+    benefits: [
+      "Επανάκτηση μυϊκής δύναμης",
+      "Βελτίωση εύρους κίνησης",
+      "Ενίσχυση ισορροπίας & συντονισμού",
+      "Πρόληψη επανατραυματισμού",
+    ],
+    indications: ["Μετά από κατάγματα", "Μετεγχειρητικά", "Χρόνιοι πόνοι", "Νευρολογικές παθήσεις", "Ηλικιωμένοι"],
+  },
+  {
+    icon: Bone,
+    title: "Αυχενικό Σύνδρομο",
+    desc: "Ολοκληρωμένη αντιμετώπιση αυχεναλγίας & πονοκεφάλων.",
+    intro: "Εξειδικευμένη προσέγγιση για την αντιμετώπιση αυχεναλγίας, αυχενικού πονοκεφάλου και ζαλάδων αυχενικής αιτιολογίας.",
+    paragraphs: [
+      "Το αυχενικό σύνδρομο εκδηλώνεται με πόνο στον αυχένα, πονοκεφάλους, ζαλάδες, ίλιγγο, μούδιασμα στα χέρια ή πόνο στις ωμοπλάτες. Συνήθως οφείλεται σε κακή στάση, παρατεταμένη χρήση Η/Υ, στρες ή τραυματισμό.",
+      "Η αντιμετώπιση συνδυάζει manual therapy, TECAR, ασκήσεις σταθεροποίησης και εκπαίδευση στη σωστή στάση εργασίας για άμεση και μακροχρόνια ανακούφιση.",
+    ],
+    benefits: [
+      "Άμεση ανακούφιση πόνου",
+      "Εξάλειψη πονοκεφάλων",
+      "Βελτίωση κινητικότητας αυχένα",
+      "Διόρθωση στάσης σώματος",
+    ],
+    indications: ["Αυχεναλγία", "Πονοκέφαλοι τάσης", "Αυχενικός ίλιγγος", "Σύνδρομο θωρακικής εξόδου", "Δισκοπάθεια αυχενικής μοίρας"],
+  },
+  {
+    icon: ShieldPlus,
+    title: "Οσφυαλγία / Μέση",
+    desc: "Θεραπεία οσφυαλγίας, δισκοπάθειας και ισχιαλγίας.",
+    intro: "Ολοκληρωμένα πρωτόκολλα για τον πόνο στη μέση — από την οξεία οσφυαλγία έως τη χρόνια δισκοπάθεια.",
+    paragraphs: [
+      "Η οσφυαλγία είναι ο πιο συχνός μυοσκελετικός πόνος και επηρεάζει 8 στους 10 ανθρώπους κάποια στιγμή στη ζωή τους. Μπορεί να οφείλεται σε δισκοκήλη, δισκοπάθεια, σπονδυλολίσθηση, μυϊκό σπασμό ή κακή στάση.",
+      "Συνδυάζουμε manual therapy, TECAR, κρουστικούς υπερήχους και θεραπευτική άσκηση για άμεση ανακούφιση και μακροχρόνια αποκατάσταση χωρίς υποτροπές.",
+    ],
+    benefits: [
+      "Άμεση μείωση πόνου",
+      "Αποσυμπίεση μεσοσπονδύλιων δίσκων",
+      "Ενδυνάμωση κορμού",
+      "Πρόληψη υποτροπών",
+    ],
+    indications: ["Οξεία & χρόνια οσφυαλγία", "Δισκοκήλη", "Ισχιαλγία", "Σπονδυλολίσθηση", "Στένωση σπονδυλικού σωλήνα"],
+  },
+  {
+    icon: Bike,
+    title: "Αθλητικοί Τραυματισμοί",
+    desc: "Επιστροφή στην αθλητική δράση με ασφάλεια.",
+    intro: "Εξειδικευμένα πρωτόκολλα αποκατάστασης για ερασιτέχνες και επαγγελματίες αθλητές.",
+    paragraphs: [
+      "Οι αθλητικοί τραυματισμοί απαιτούν εξειδικευμένη γνώση και ταχύτατη παρέμβαση. Στόχος μας είναι η ασφαλής και γρήγορη επιστροφή του αθλητή στην αγωνιστική δράση χωρίς κίνδυνο επανατραυματισμού.",
+      "Συνδυάζουμε σύγχρονες τεχνολογίες (TECAR, Shockwave) με manual therapy και εξειδικευμένα προγράμματα επιστροφής στον αθλητισμό (return-to-sport protocols).",
+    ],
+    benefits: [
+      "Ταχύτατη επιστροφή στην αθλητική δράση",
+      "Πρόληψη επανατραυματισμού",
+      "Βελτίωση αθλητικής απόδοσης",
+      "Εξατομικευμένη αξιολόγηση",
+    ],
+    indications: ["Θλάσεις μυών", "Διαστρέμματα", "Ρήξεις συνδέσμων / μηνίσκων", "Τενοντοπάθειες", "Κακώσεις από υπέρχρηση"],
+  },
+  {
+    icon: Stethoscope,
+    title: "Μετεγχειρητική Αποκατάσταση",
+    desc: "Εξειδικευμένα προγράμματα μετά από επεμβάσεις.",
+    intro: "Εξατομικευμένα προγράμματα αποκατάστασης μετά από ορθοπεδικές επεμβάσεις, σε στενή συνεργασία με τον χειρουργό.",
+    paragraphs: [
+      "Η μετεγχειρητική φυσικοθεραπεία είναι καθοριστική για το τελικό αποτέλεσμα κάθε επέμβασης. Ένα σωστά σχεδιασμένο πρόγραμμα διασφαλίζει την πλήρη αποκατάσταση της λειτουργικότητας.",
+      "Ακολουθούμε διεθνώς αναγνωρισμένα πρωτόκολλα προσαρμοσμένα στο είδος της επέμβασης, τα οποία περιλαμβάνουν διαχείριση πόνου & οιδήματος, σταδιακή κινητοποίηση και προοδευτική ενδυνάμωση.",
+    ],
+    benefits: [
+      "Πλήρης ανάκτηση λειτουργικότητας",
+      "Πρόληψη επιπλοκών",
+      "Μείωση χρόνου αποθεραπείας",
+      "Συνεργασία με τον χειρουργό σας",
+    ],
+    indications: ["Αρθροπλαστική γόνατος / ισχίου", "Ανακατασκευή πρόσθιου χιαστού", "Επεμβάσεις ώμου (rotator cuff)", "Επεμβάσεις σπονδυλικής στήλης", "Μετά από κατάγματα"],
+  },
 ];
 
 const reviews = [
@@ -74,6 +252,8 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const [activeService, setActiveService] = useState<Service | null>(null);
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Top utility bar */}
@@ -225,7 +405,12 @@ export default function App() {
           </div>
           <div className="grid gap-px bg-border md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
             {services.map((service, index) => (
-              <div key={index} className="group relative overflow-hidden bg-background p-8 transition-all duration-500 hover:bg-primary">
+              <button
+                key={index}
+                type="button"
+                onClick={() => setActiveService(service)}
+                className="group relative overflow-hidden bg-background p-8 text-left transition-all duration-500 hover:bg-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+              >
                 <service.icon className="mb-6 h-8 w-8 text-gold transition-all duration-500 group-hover:scale-110" strokeWidth={1.25} />
                 <h3 className="mb-3 font-serif-display text-xl font-medium leading-tight text-primary transition-colors group-hover:text-white">
                   {service.title}
@@ -233,10 +418,10 @@ export default function App() {
                 <p className="text-sm leading-relaxed text-muted-foreground transition-colors group-hover:text-white/70">
                   {service.desc}
                 </p>
-                <div className="mt-6 flex items-center text-[11px] uppercase tracking-[0.2em] text-gold opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                  Μάθετε <ArrowRight className="ml-2 h-3 w-3" />
+                <div className="mt-6 flex items-center text-[11px] uppercase tracking-[0.2em] text-gold opacity-70 transition-opacity duration-500 group-hover:opacity-100">
+                  Περισσότερα <ArrowRight className="ml-2 h-3 w-3" />
                 </div>
-              </div>
+              </button>
             ))}
           </div>
         </div>
@@ -495,6 +680,83 @@ export default function App() {
           </div>
         </div>
       </footer>
+
+      {/* Service detail dialog */}
+      <Dialog open={!!activeService} onOpenChange={(open) => !open && setActiveService(null)}>
+        <DialogContent className="max-h-[90vh] max-w-3xl overflow-y-auto rounded-none border-border bg-background p-0">
+          {activeService && (
+            <>
+              <div className="relative bg-hero-gradient px-8 py-12 text-white md:px-12 md:py-14">
+                <div className="absolute inset-0 opacity-20" style={{ backgroundImage: `url(${clinic2})`, backgroundSize: "cover", backgroundPosition: "center", mixBlendMode: "luminosity" }} />
+                <div className="relative">
+                  <div className="mb-6 inline-flex h-14 w-14 items-center justify-center border border-gold/50 bg-white/5 backdrop-blur-sm">
+                    <activeService.icon className="h-7 w-7 text-gold" strokeWidth={1.25} />
+                  </div>
+                  <DialogHeader className="space-y-3 text-left">
+                    <div className="text-[11px] uppercase tracking-luxury text-gold">Υπηρεσία</div>
+                    <DialogTitle className="font-serif-display text-3xl font-medium leading-tight text-white md:text-4xl">
+                      {activeService.title}
+                    </DialogTitle>
+                    <p className="max-w-xl text-sm leading-relaxed text-white/75 md:text-base">
+                      {activeService.intro}
+                    </p>
+                  </DialogHeader>
+                </div>
+              </div>
+
+              <div className="space-y-10 px-8 py-10 md:px-12 md:py-12">
+                <div className="space-y-5">
+                  {activeService.paragraphs.map((p, i) => (
+                    <p key={i} className="text-base leading-relaxed text-foreground/85">{p}</p>
+                  ))}
+                </div>
+
+                <div className="grid gap-10 border-t border-border pt-10 md:grid-cols-2">
+                  <div>
+                    <h4 className="mb-5 inline-flex items-center gap-3 text-[11px] font-medium uppercase tracking-luxury text-gold">
+                      <span className="h-px w-6 bg-gold" />Οφέλη
+                    </h4>
+                    <ul className="space-y-3">
+                      {activeService.benefits.map((b, i) => (
+                        <li key={i} className="flex items-start gap-3 text-sm leading-relaxed text-foreground/85">
+                          <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-gold" strokeWidth={1.5} />
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="mb-5 inline-flex items-center gap-3 text-[11px] font-medium uppercase tracking-luxury text-gold">
+                      <span className="h-px w-6 bg-gold" />Ενδείξεις
+                    </h4>
+                    <ul className="space-y-3">
+                      {activeService.indications.map((b, i) => (
+                        <li key={i} className="flex items-start gap-3 text-sm leading-relaxed text-foreground/85">
+                          <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-gold" />
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-3 border-t border-border pt-8 sm:flex-row">
+                  <Button asChild className="h-12 flex-1 rounded-none bg-primary text-[12px] uppercase tracking-[0.25em] text-primary-foreground hover:bg-ink">
+                    <a href={`tel:+30${PHONE}`}>
+                      <Phone className="mr-2 h-4 w-4" />Κλείστε Ραντεβού
+                    </a>
+                  </Button>
+                  <Button asChild variant="outline" className="h-12 flex-1 rounded-none border-primary text-[12px] uppercase tracking-[0.25em] text-primary hover:bg-primary hover:text-white">
+                    <a href={MAPS} target="_blank" rel="noopener">
+                      <MapPin className="mr-2 h-4 w-4" />Επισκεφθείτε μας
+                    </a>
+                  </Button>
+                </div>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
