@@ -252,6 +252,8 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const [activeService, setActiveService] = useState<Service | null>(null);
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Top utility bar */}
