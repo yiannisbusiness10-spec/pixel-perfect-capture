@@ -216,6 +216,15 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   const [activeService, setActiveService] = useState<Service | null>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const navLinks = [
+    { href: "#why", label: "Γιατί Εμάς" },
+    { href: "#services", label: "Υπηρεσίες" },
+    { href: "#about", label: "Σχετικά" },
+    { href: "#reviews", label: "Κριτικές" },
+    { href: "#contact", label: "Επικοινωνία" },
+  ];
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -233,43 +242,73 @@ export default function App() {
       </div>
 
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-xl">
-        <div className="container mx-auto flex h-20 items-center justify-between px-6">
+      <header className="sticky top-0 z-50 border-b border-border/60 bg-background/90 backdrop-blur-xl">
+        <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
           <a href="#top" className="flex items-center gap-3">
-            <img src={logo} alt="Physiomerimna" className="h-11 w-auto" />
-            <div className="hidden flex-col leading-none sm:flex">
-              <span className="font-serif-display text-2xl font-semibold tracking-tight text-primary">Physiomerimna</span>
-              <span className="mt-1 text-[10px] uppercase tracking-luxury text-muted-foreground">Φυσικοθεραπεία · Σεπόλια</span>
+            <img src={logo} alt="Physiomerimna" className="h-10 w-auto md:h-11" />
+            <div className="flex flex-col leading-none">
+              <span className="font-serif-display text-xl font-semibold tracking-tight text-primary md:text-2xl">Physiomerimna</span>
+              <span className="mt-1 hidden text-[10px] uppercase tracking-luxury text-muted-foreground sm:block">Φυσικοθεραπεία · Σεπόλια</span>
             </div>
           </a>
           <nav className="hidden items-center gap-9 text-[13px] font-medium text-muted-foreground lg:flex">
-            <a href="#why" className="transition-colors hover:text-primary">Γιατί Εμάς</a>
-            <a href="#services" className="transition-colors hover:text-primary">Υπηρεσίες</a>
-            <a href="#about" className="transition-colors hover:text-primary">Σχετικά</a>
-            <a href="#reviews" className="transition-colors hover:text-primary">Κριτικές</a>
-            <a href="#contact" className="transition-colors hover:text-primary">Επικοινωνία</a>
+            {navLinks.map((l) => (
+              <a key={l.href} href={l.href} className="transition-colors hover:text-primary">{l.label}</a>
+            ))}
           </nav>
-          <Button asChild size="sm" className="h-10 rounded-none border border-primary bg-primary px-5 text-[12px] uppercase tracking-[0.2em] text-primary-foreground hover:bg-ink">
-            <a href={`tel:+30${PHONE}`}>
-              <Phone className="mr-2 h-4 w-4" />Ραντεβού
+          <div className="flex items-center gap-2">
+            <Button asChild size="sm" className="hidden h-10 rounded-none border border-primary bg-primary px-5 text-[12px] uppercase tracking-[0.2em] text-primary-foreground hover:bg-ink sm:inline-flex">
+              <a href={`tel:+30${PHONE}`}>
+                <Phone className="mr-2 h-4 w-4" />Ραντεβού
+              </a>
+            </Button>
+            <a
+              href={`tel:+30${PHONE}`}
+              aria-label="Κάλεσε"
+              className="flex h-10 w-10 items-center justify-center border border-primary bg-primary text-primary-foreground sm:hidden"
+            >
+              <Phone className="h-4 w-4" />
             </a>
-          </Button>
+            <button
+              type="button"
+              onClick={() => setMobileOpen((v) => !v)}
+              aria-label="Μενού"
+              className="flex h-10 w-10 items-center justify-center border border-border text-primary lg:hidden"
+            >
+              {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
         </div>
+        {mobileOpen && (
+          <nav className="border-t border-border bg-background lg:hidden">
+            <div className="container mx-auto flex flex-col px-4 py-2">
+              {navLinks.map((l) => (
+                <a
+                  key={l.href}
+                  href={l.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="border-b border-border/60 py-3 text-sm font-medium text-primary last:border-0"
+                >
+                  {l.label}
+                </a>
+              ))}
+            </div>
+          </nav>
+        )}
       </header>
 
       {/* Hero */}
       <section id="top" className="relative overflow-hidden bg-hero-gradient">
-        <div
-          className="absolute inset-0 opacity-25"
-          style={{
-            backgroundImage: `url(${clinic1})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            mixBlendMode: "luminosity",
-          }}
+        <img
+          src={clinic1}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full object-cover opacity-50"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-ink/85 via-ink/55 to-transparent" />
-        <div className="absolute -right-40 top-20 h-96 w-96 animate-float rounded-full bg-gold/10 blur-3xl" />
+        <div className="absolute inset-0 bg-gradient-to-r from-ink/90 via-ink/70 to-ink/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent" />
+        <div className="absolute -right-40 top-20 h-96 w-96 animate-float rounded-full bg-gold/15 blur-3xl" />
+        <div className="absolute -left-40 bottom-0 h-80 w-80 rounded-full bg-gold/5 blur-3xl" />
 
         <div className="container relative mx-auto grid min-h-[88vh] items-center px-6 py-24 md:py-32">
           <div className="max-w-3xl text-white">
@@ -314,7 +353,7 @@ export default function App() {
 
             <div className="mt-20 grid max-w-2xl grid-cols-3 gap-8 border-t border-white/10 pt-8">
               <div>
-                <div className="font-serif-display text-3xl font-medium text-gold md:text-4xl">10+</div>
+                <div className="font-serif-display text-3xl font-medium text-gold md:text-4xl">25+</div>
                 <div className="mt-1 text-[10px] uppercase tracking-luxury text-white/50">Χρόνια Εμπειρίας</div>
               </div>
               <div>
@@ -322,7 +361,7 @@ export default function App() {
                 <div className="mt-1 text-[10px] uppercase tracking-luxury text-white/50">Google Rating</div>
               </div>
               <div>
-                <div className="font-serif-display text-3xl font-medium text-gold md:text-4xl">10+</div>
+                <div className="font-serif-display text-3xl font-medium text-gold md:text-4xl">6+</div>
                 <div className="mt-1 text-[10px] uppercase tracking-luxury text-white/50">Υπηρεσίες</div>
               </div>
             </div>
