@@ -405,7 +405,12 @@ export default function App() {
           </div>
           <div className="grid gap-px bg-border md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
             {services.map((service, index) => (
-              <div key={index} className="group relative overflow-hidden bg-background p-8 transition-all duration-500 hover:bg-primary">
+              <button
+                key={index}
+                type="button"
+                onClick={() => setActiveService(service)}
+                className="group relative overflow-hidden bg-background p-8 text-left transition-all duration-500 hover:bg-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+              >
                 <service.icon className="mb-6 h-8 w-8 text-gold transition-all duration-500 group-hover:scale-110" strokeWidth={1.25} />
                 <h3 className="mb-3 font-serif-display text-xl font-medium leading-tight text-primary transition-colors group-hover:text-white">
                   {service.title}
@@ -413,10 +418,10 @@ export default function App() {
                 <p className="text-sm leading-relaxed text-muted-foreground transition-colors group-hover:text-white/70">
                   {service.desc}
                 </p>
-                <div className="mt-6 flex items-center text-[11px] uppercase tracking-[0.2em] text-gold opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                  Μάθετε <ArrowRight className="ml-2 h-3 w-3" />
+                <div className="mt-6 flex items-center text-[11px] uppercase tracking-[0.2em] text-gold opacity-70 transition-opacity duration-500 group-hover:opacity-100">
+                  Περισσότερα <ArrowRight className="ml-2 h-3 w-3" />
                 </div>
-              </div>
+              </button>
             ))}
           </div>
         </div>
